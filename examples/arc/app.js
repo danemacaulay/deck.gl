@@ -22,6 +22,8 @@ class Root extends Component {
       data: null,
       selectedCounty: null
     };
+    this._onClick = this._onClick.bind(this);
+    this._onHover = this._onHover.bind(this);
 
     requestJson('./data/counties.json', (error, response) => {
       if (!error) {
@@ -51,6 +53,23 @@ class Root extends Component {
     });
   }
 
+  _onClick(info) {
+    console.log('clicked', info);
+    this.setState({
+      selectedCounty: info.object
+    });
+  }
+
+  _onHover(info) {
+    // console.log('hovered', info);
+    if (!info.object) {
+      return;
+    }
+    this.setState({
+      selectedCounty: info.object
+    });
+  }
+
   render() {
     const {viewport, data, selectedCounty} = this.state;
 
@@ -63,6 +82,8 @@ class Root extends Component {
           data={data}
           selectedFeature={selectedCounty}
           strokeWidth={2}
+          onClick={this._onClick}
+          onHover={this._onHover}
           />
       </MapGL>
     );
